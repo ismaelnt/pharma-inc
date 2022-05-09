@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { CircleNotch, MagnifyingGlass } from 'phosphor-react';
 
 import { useUsers } from './contexts/useUsers';
+import { Searchbox } from './components/Searchbox';
 
 export function App() {
   const { users, getUsers, loadMore, page } = useUsers();
@@ -15,7 +16,7 @@ export function App() {
       await getUsers();
       setIsLoading(false);
     }
-    
+
     fetchData();
   }, [page])
 
@@ -31,17 +32,7 @@ export function App() {
             Maecenas auctor dapibus lacus non iaculis.
           </p>
 
-          <label className='relative block w-full my-6 text-black'>
-            <span className='absolute inset-y-0 right-0 flex items-center pr-2'>
-              <MagnifyingGlass className='text-slate-500 text-lg' />
-            </span>
-            <input
-              className='placeholder:text-slate-500 placeholder:text-lg block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:ring-1 sm:text-sm'
-              placeholder='Searching'
-              type='text'
-              name='search'
-            />
-          </label>
+          <Searchbox />
 
           <div className='relative overflow-x-auto shadow-md sm:rounded-md w-full'>
             <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
