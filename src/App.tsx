@@ -54,7 +54,7 @@ export function App() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user: any) => (
+                {users.map((user) => (
                   <tr key={user.login.uuid} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center'>
                     <td className='py-2 text-zinc-100'>
                       {user.name.first} {user.name.last}

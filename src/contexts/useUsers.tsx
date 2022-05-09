@@ -1,13 +1,15 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 import axios from 'axios';
+
+import { User } from '../types/users.type';
 
 interface UsersProviderProps {
   children: ReactNode;
 }
 
 interface UsersContextData {
-  users: any[];
+  users: User[];
   page: number;
   getUsers: () => Promise<void>;
   loadMore: () => Promise<void>;
@@ -17,17 +19,15 @@ export const UsersContext = createContext<UsersContextData>({} as UsersContextDa
 
 export function UsersProvider({ children }: UsersProviderProps) {
   const baseUrl = 'https://randomuser.me/api/';
-  const [users, setUsers] = useState<any>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(0);
 
   async function getUsers() {
     try {
       const response = await axios.get(`${baseUrl}?results=6&page=${page}`);
-      setUsers((users: any) => [...users, ...response.data.results]);
+      setUsers((users: User[]) => [...users, ...response.data.results]);
     } catch (error) {
       console.log(error);
-    } finally {
-      
     }
   }
 
