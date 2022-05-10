@@ -10,8 +10,10 @@ interface UsersProviderProps {
 
 interface UsersContextData {
   users: User[];
+  user: User | undefined;
   page: number;
   getUsers: () => Promise<void>;
+  getUserById: (userId: string) => void;
   loadMore: () => Promise<void>;
 }
 
@@ -20,6 +22,7 @@ export const UsersContext = createContext<UsersContextData>({} as UsersContextDa
 export function UsersProvider({ children }: UsersProviderProps) {
   const baseUrl = 'https://randomuser.me/api/';
   const [users, setUsers] = useState<User[]>([]);
+  const [user, setUser] = useState<User>();
   const [page, setPage] = useState(0);
 
   async function getUsers() {
@@ -35,8 +38,25 @@ export function UsersProvider({ children }: UsersProviderProps) {
     setPage((page) => page + 1);
   }
 
+  function getUserById(userId: string) {
+    try {
+      const user = [...users];
+      const findUser = user.find(user => user.login.uuid === userId);
+      setUser(findUser);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <UsersContext.Provider value={{ users, getUsers, loadMore, page }}>
+    <UsersContext.Provider value={{
+      users,
+      user,
+      getUsers,
+      getUserById,
+      loadMore,
+      page
+    }}>
       {children}
     </UsersContext.Provider>
   );
